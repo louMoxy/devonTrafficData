@@ -19,7 +19,7 @@ header {
   background: linear-gradient(to bottom, transparent 30%, rgba(0, 0, 0, 0.19) 50%, rgba(0, 0, 0, 0.65) 100%); }
 
 #intro {
-  padding: 40px 60px;
+  padding: 40px 60px 20px 60px;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -32,7 +32,12 @@ header {
 
 h1 {
   text-align: center; }
-
+h2 {
+  background: #62B5B0;
+  padding: 5px;
+  margin-top: 10px;
+  text-align: center;
+}
 #intro p {
   font-size: 16px;
   margin-bottom: 10px; }
@@ -116,7 +121,7 @@ div.tooltip {
   padding: 5px;
   color: #fff;
   max-width: 120px;
-  font-size: 12px; }
+  font-size: 13px; }
 
 .bar {
   transition: opacity 0.5s;
@@ -132,7 +137,7 @@ div.tooltip {
   <div>
     <p>Using D3.js library I have created a demo visualisation showing some of the data provided by the Department of Transport, more information on how on how this data was collected can be found here: <a href="https://www.dft.gov.uk/traffic-counts/about.php" target="_blank">https://www.dft.gov.uk/traffic-counts/about.php</a></p>
     <p>Using the interactivity of the line chart I have produced a customised bar chart to show a more detailed breakdown of the amount of traffic on certain types of roads.</p><br>
-    <h2>Click on the points on the graph below to update the bar chart</h2>
+    <h2>Click the points on the graph below to update the bar chart</h2>
   </div>
   <div>
     <p>If I was to take this project further, I would also create another line graph to show the individual roads for certain years and the amount of traffic, giving the user full flexibility to see the data they are interested in. Also I would make the the SVG elements scale correctly for a responsive site.</p>
@@ -149,7 +154,7 @@ div.tooltip {
 
 // Set the dimensions of the canvas / graph
 var margin = {top: 50, right: 130, bottom: 50, left: 80},
-    width = 800 - margin.left - margin.right,
+    width = 760 - margin.left - margin.right,
     height = 470 - margin.top - margin.bottom;
 
 
@@ -280,8 +285,6 @@ d3.csv("Devon.csv", function(error, data) {
           .style("left", (x(d3.max(yearArray)) + margin.left + 20) + "px")
           .style("top", (y(d.values[d.values.length -1].total) + 20) + "px")
           .attr("class", "legend")
-          .style("background", function(dd) { // Add the colours dynamically
-              return d.color = color(d.group); })
           .html(sortData(d.group));
       });
       //Add Title for Line char
