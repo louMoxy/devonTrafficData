@@ -1,73 +1,154 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style> /* set the CSS */
+<style>
+* {
+  margin: 0;
+  padding: 0; }
 
-body { 
+body {
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
   background: #12232A;
   color: #fff;
-  fill:#fff;
-}
+  fill: #fff; }
+
+header {
+  padding: 40px;
+  background: -moz-linear-gradient(top, transparent 30%, rgba(0, 0, 0, 0.19) 50%, rgba(0, 0, 0, 0.65) 100%);
+  background: -webkit-linear-gradient(top, transparent 30%, rgba(0, 0, 0, 0.19) 50%, rgba(0, 0, 0, 0.65) 100%);
+  background: linear-gradient(to bottom, transparent 30%, rgba(0, 0, 0, 0.19) 50%, rgba(0, 0, 0, 0.65) 100%); }
+
+#intro {
+  padding: 40px 60px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around; }
+
+#intro > div {
+  width: 45%; }
+
+h1 {
+  text-align: center; }
+
+#intro p {
+  font-size: 16px;
+  margin-bottom: 10px; }
+
+a {
+  color: #fff; }
+
+.container {
+  position: relative;
+  width: 90%;
+  margin: 50px auto;
+  float: none; }
+
 .svgBar {
   margin-left: 20px;
-  float: right;
-}
+  float: right; }
+
+svg .line {
+  stroke-dasharray: 620;
+  -webkit-animation: outline 3s;
+  animation: outline 3s; }
+
+@-webkit-keyframes outline {
+  from {
+    stroke-dashoffset: 620; }
+  to {
+    stroke-dashoffset: 0; } }
+
+@keyframes outline {
+  from {
+    stroke-dashoffset: 620; }
+  to {
+    stroke-dashoffset: 0; } }
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+.legend {
+  -webkit-animation: fadeIn 2s 3s both;
+  animation: fadeIn 2s 3s both; }
+
 path {
-    stroke: steelblue;
-    stroke-width: 2;
-    fill: none;
-}
+  stroke: steelblue;
+  stroke-width: 2;
+  fill: none; }
+
 .tick text {
-  fill: #fff;
-}
+  fill: #fff; }
+
 .axis path,
 .axis line {
-    fill: none;
-    stroke: grey;
-    stroke-width: 1;
-    shape-rendering: crispEdges;
-}
+  fill: none;
+  stroke: grey;
+  stroke-width: 1;
+  shape-rendering: crispEdges; }
+
 div.tooltip {
   position: absolute;
   text-align: center;
   padding: 4px;
   z-index: 2;
   font: 12px sans-serif;
-  background: lightsteelblue;
   border: 0px;
   border-radius: 8px;
-  pointer-events: none;
-}
+  pointer-events: none; }
+
 .title {
   font-size: 18px;
-  color: #fff;
-}
+  color: #fff; }
 
 .legend {
   padding: 5px;
   color: #fff;
-  max-width: 80px;
-  font-size: 12px;
-}
-.bar { 
+  max-width: 120px;
+  font-size: 12px; }
+
+.bar {
   transition: opacity 0.5s;
-  -webkit-transition: opacity 0.5s;
-}
+  -webkit-transition: opacity 0.5s; }
+
 .bar:hover {
-  opacity: 0.7;
-}
+  opacity: 0.7; }
+
 </style>
 <body>
+<header><h1>Visualising the Annual average daily <br>flow of traffic in Devon</h1></header>
+  <section id="intro">
+  <div>
+    <p>Using D3.js library I have created a demo visualisation showing some of the data provided by the Department of Transport, more information on how on how this data was collected can be found here: <a href="https://www.dft.gov.uk/traffic-counts/about.php" target="_blank">https://www.dft.gov.uk/traffic-counts/about.php</a></p>
+    <p>Using the interactivity of the line chart I have produced a customised bar chart to show a more detailed breakdown of the amount of traffic on certain types of roads.</p><br>
+    <h2>Click on the points on the graph below to update the bar chart</h2>
+  </div>
+  <div>
+    <p>If I was to take this project further, I would also create another line graph to show the individual roads for certain years and the amount of traffic, giving the user full flexibility to see the data they are interested in. Also I would make the the SVG elements scale correctly for a responsive site.</p>
+    <p>All the data of the project can be downloaded here: <a href="http://api.dft.gov.uk/v2/trafficcounts/export/la/Devon.csv" target="_blank">http://api.dft.gov.uk/v2/trafficcounts/export/la/Devon.csv</a><br>
+    And the Metadata can be found here: <a href="http://data.dft.gov.uk/gb-traffic-matrix/aadf-majorroads-metadata.pdf" target="_blank">http://data.dft.gov.uk/gb-traffic-matrix/aadf-majorroads-metadata.pdf</a><br>And the github for the project is here: <a href="https://github.com/louMoxy/devonTrafficData" target="_blank">https://github.com/louMoxy/devonTrafficData</a></p>
+  </div>
+</section>
 <div class="container"></div>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 <!-- load the d3.js library -->
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.4.3/d3.min.js"></script>
 
 <script>
 
 // Set the dimensions of the canvas / graph
-var margin = {top: 50, right: 100, bottom: 50, left: 80},
+var margin = {top: 50, right: 130, bottom: 50, left: 80},
     width = 800 - margin.left - margin.right,
     height = 470 - margin.top - margin.bottom;
 
@@ -79,13 +160,25 @@ var y = d3.scaleLinear().range([height, 0]);
 //Give correct description of roads
 function sortData(group) {
   if(group == "PR") {
-    group = "Class A Principal road in Rural area";
-  } else if (group == "TR") {
-    group =  "Class A Trunk road in Rural area";
-  } else if (group == "PU") {
-    group =  "Class A Principal road in Urban area";
-  } else if (group == "TM") {
-    group =  "M or Class A Trunk Motorway";
+    return "Class A Principal road in a Rural area";
+  } else if (group === "TR") {
+    return "Class A Trunk road in a Rural area";
+  } else if (group === "PU") {
+   return  "Class A Principal road in an Urban area";
+  } else if (group === "TM") {
+    return  "M or Class A Trunk Motorway";
+  } else if (group === "totalMotorcycles") {
+    return  "Motorcycles";
+  }else if (group === "totalBusCoach") {
+    return  "Buses and Coaches";
+  }else if (group === "totalCarsTaxi") {
+    return  "Cars and Taxis";
+  }else if (group === "totalCycles") {
+    return  "Pedal Cycles";
+  }else if (group === "totalHGV") {
+    return  "All HGVs";
+  }else if (group === "totalLGV") {
+    return  "All LGVs";
   }
     return group;
 }
@@ -94,7 +187,7 @@ var group,
     year,
     trafficVar = ["totalBusCoach","totalCarsTaxi","totalCycles", "totalHGV", "totalLGV", "totalMotorcycles" ],
     newData = [];
-    color = d3.scaleOrdinal(d3.schemeCategory20c),
+    color = d3.scaleOrdinal(["#1F82A7", "#1F827C", "#62B5B0", "#134E73","#EB3F7A", "#B562A8", "#4F2B49"]),
     t = d3.transition()
       .duration(800);
 
@@ -106,8 +199,6 @@ var line = d3.line()
 var div = d3.select(".container").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
-
-
 
 // Adds the svg canvas
 var svg = d3.select(".container")
@@ -187,25 +278,25 @@ d3.csv("Devon.csv", function(error, data) {
       d3.select(".container").append("div")
           .style("position", "absolute")
           .style("left", (x(d3.max(yearArray)) + margin.left + 20) + "px")
-          .style("top", (y(d.values[d.values.length -1].total) + 30) + "px")
+          .style("top", (y(d.values[d.values.length -1].total) + 20) + "px")
           .attr("class", "legend")
           .style("background", function(dd) { // Add the colours dynamically
               return d.color = color(d.group); })
           .html(sortData(d.group));
       });
-      //Add Title for Line char 
+      //Add Title for Line char
       svg.append("text")
-      .attr("x", (width / 2))       
+      .attr("x", (width / 2))
       .attr("y", 0 - (margin.top / 2))
-      .attr("text-anchor", "middle")  
-      .attr("class", "title")  
-      .text("Annual Average Daily Flow of traffic per year");
+      .attr("text-anchor", "middle")
+      .attr("class", "title")
+      .text("Annual Average Daily Flow of traffic per year in Devon");
       //Title for Bar Chart
       svgBar.append("text")
-      .attr("x", (width / 2))       
+      .attr("x", (width / 2))
       .attr("y", 0 - (margin.top / 2))
-      .attr("text-anchor", "middle")  
-      .attr("class", "title")  
+      .attr("text-anchor", "middle")
+      .attr("class", "title")
       .text("Click on the data points for a breakdown of vehicles");
 
         // Add the scatterplots
@@ -222,16 +313,16 @@ d3.csv("Devon.csv", function(error, data) {
           .on("mouseover", function(d) {
             div.transition()
             .duration(200)
+            .style("background", "#2F4A61")
             .style("opacity", .9);
             div.html(d.total + " average amount <br>of daily traffic for " + d.year)
-            .style("left", (d3.event.pageX) + "px")
-            .style("top", (d3.event.pageY - 28) + "px")
-
+            .style("left", d3.select(this).attr("cx") + "px")
+            .style("top", d3.select(this).attr("cy") + "px")
           })
           .on("mouseout", function(d) {
             div.transition()
             .duration(500)
-            .style("opacity", 0);
+            .style("opacity", 0)
           })
           .on("click", function(d) {
             //Clear newData array
@@ -245,7 +336,7 @@ d3.csv("Devon.csv", function(error, data) {
     var yBar = d3.scaleLinear().rangeRound([height, 0]);
     var xBar = d3.scaleBand().rangeRound([0, width]).padding(0.1);
 
-      xBar.domain( ["totalBusCoach", "totalCarsTaxi", "totalCycles", "totalHGV", "totalLGV", "totalMotorcycles"] );
+      xBar.domain( ["Buses and Coaches", "Cars and Taxis", "Pedal Cycles", "All HGVs", "All LGVs", "Motorcycles"] );
       //Hard coded, need to amend
       yBar.domain([0, 1300000]);
 
@@ -286,7 +377,7 @@ d3.csv("Devon.csv", function(error, data) {
             .attr("dy", "1em")
             .attr("class", "label")
             .style("text-anchor", "middle")
-            .text("Annual Average Daily Flow"); 
+            .text("Annual Average Daily Flow");
       // Add the X Axis
       svg.append("g")
         .attr("class", "axis")
@@ -294,14 +385,14 @@ d3.csv("Devon.csv", function(error, data) {
         //To display ticks every year no matter how many years are in the data
         .call(d3.axisBottom(x).ticks(d3.max(yearArray) - d3.min(yearArray) + 1).tickFormat(d3.format("Y")));
 
-      //Adding Label  
+      //Adding Label
       svg.append("text")
         .attr("x", width / 2 )
         .attr("y",  height + margin.top - 20)
         .attr("dy", "1em")
         .attr("class", "label")
         .style("text-anchor", "middle")
-        .text("Years"); 
+        .text("Years");
 
       // Add the Y Axis
       svg.append("g")
@@ -316,7 +407,7 @@ d3.csv("Devon.csv", function(error, data) {
         .attr("dy", "1em")
         .attr("class", "label")
         .style("text-anchor", "middle")
-        .text("Annual Average Daily Flow"); 
+        .text("Annual Average Daily Flow");
 
 
 
@@ -342,7 +433,7 @@ d3.csv("Devon.csv", function(error, data) {
                   .transition(t).duration(600)
                   .attr("y", function(d) {return yBar(d.value); })
                   .attr("height", function(d) { return height - yBar(d.value); });
-          //update the pop up bubbles with data 
+          //update the pop up bubbles with data
           svgBar.selectAll(".popUp")
                 .data(newData)
                 .style("opacity", "0")
@@ -362,7 +453,7 @@ d3.csv("Devon.csv", function(error, data) {
               .append("rect")
               .attr("fill", function(d) { // Add the colours dynamically
                   return d.color = color(d); })
-              .attr("x", function(d) {  return xBar(d); })
+              .attr("x", function(d) {  return xBar(sortData(d)); })
               .attr("width", xBar.bandwidth())
               .attr("y", function(d) {return yBar(0); })
               .attr("height", function(d) { return height - yBar(0); });
@@ -372,8 +463,8 @@ d3.csv("Devon.csv", function(error, data) {
             .style("text-anchor", "middle")
             .style("opacity", "0")
             .style("color", "#fff")
-            .attr("x", function(d) { return (xBar(d) + (xBar.bandwidth() /2) ); });
-            
+            .attr("x", function(d) { return (xBar(sortData(d)) + (xBar.bandwidth() /2) ); });
+
 
 });
 </script>
